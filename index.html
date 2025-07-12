@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PK Bond - All Bonds</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700&display=swap');
+
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #2c3e50;
+            --bg-tertiary: rgba(0, 0, 0, 0.2);
+            --text-primary: #f0f0f0;
+            --text-secondary: #bdc3c7;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-green: #27ae60;
+            --accent-blue: #3498db;
+            --accent-red: #e74c3c;
+            --accent-yellow: #f1c40f;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        [data-theme="light"] {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f0f2f5;
+            --text-primary: #1c1e21;
+            --text-secondary: #65676b;
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif; display: flex; justify-content: center;
+            align-items: flex-start; min-height: 100vh; background-color: var(--bg-primary);
+            padding: 20px; overflow-y: auto; color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .screen { width: 100%; max-width: 380px; display: none; }
+        #mainScreen { display: block; }
+
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header h1 { font-size: 26px; font-weight: 700; color: var(--text-primary); }
+        .header .menu-icon, .header .back-button { font-size: 24px; color: var(--text-primary); cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+        .header .back-button { font-size: 18px; font-weight: 700; }
+
+        main { padding: 0 15px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .slider-container, .countdown-section, .card-wrapper, .results-button, .social-links { animation: fadeIn 0.5s ease-out forwards; }
+
+        .slider-container{width:100%;height:160px;border-radius:20px;overflow:hidden;position:relative;margin-bottom:35px;box-shadow:0 10px 30px var(--shadow-color)}.slider-wrapper{display:flex;height:100%;transition:transform .7s ease-in-out}.slide{min-width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;color:#fff;text-align:center}.slide h2{font-size:22px;margin-bottom:8px;text-shadow:0 2px 4px rgba(0,0,0,.5)}.slide p{font-size:14px;opacity:.9}.slide:nth-child(1){background:linear-gradient(135deg,#1abc9c,#16a085)}.slide:nth-child(2){background:linear-gradient(135deg,#4a69bd,#3c5aa6)}.slide:nth-child(3){background:linear-gradient(135deg,#e67e22,#d35400)}.countdown-section{margin-bottom:35px;text-align:center}.countdown-section h3{font-size:18px;font-weight:700;margin-bottom:15px;text-transform:uppercase;letter-spacing:1px;color:var(--text-primary)}.timers-container{display:flex;justify-content:space-around;gap:10px}.timer-box{background-color:var(--bg-tertiary);border-radius:12px;padding:15px 10px;flex:1;border:1px solid var(--border-color)}.timer-label{font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:8px;text-transform:uppercase}.timer-value{font-family:'Roboto Mono',monospace;font-size:18px;font-weight:500;color:var(--text-primary)}.card-wrapper{margin-bottom:35px}.bond-card{border-radius:20px;padding:25px;box-shadow:0 10px 30px var(--shadow-color);border:1px solid var(--border-color);color:#fff;text-align:left}.bond-card.monthly{background:linear-gradient(135deg,#2c3e50,#34495e)}.bond-card.weekly{background:linear-gradient(135deg,#4a69bd,#3c5aa6)}.bond-card.daily{background:linear-gradient(135deg,#6a89cc,#5a76b4)}.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}.card-header .title{font-size:16px;font-weight:700;text-transform:uppercase}.card-main-text{text-align:center;margin-bottom:25px}.card-main-text .prize-amount{font-size:34px;font-weight:700}.card-footer{display:grid;grid-template-columns:1fr 1fr;gap:10px 15px;border-top:1px solid rgba(255,255,255,.1);padding-top:15px}.footer-label,.card-main-text .prize-label{font-size:12px;color:#bdc3c7}.footer-value{font-weight:500;font-size:14px}.draw-info{text-align:right}.action-button,.results-button{display:block;width:100%;color:#fff;border:none;padding:15px;border-radius:12px;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;transition:all .3s ease}.action-button{background:linear-gradient(45deg,#1abc9c,#16a085);box-shadow:0 4px 20px rgba(26,188,156,.3);margin-top:15px}.results-button{background:linear-gradient(45deg,#4a69bd,#3c5aa6);box-shadow:0 4px 20px rgba(74,105,189,.3);margin-top:20px}.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(10,25,47,.5);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}.modal-content{background-color:var(--bg-secondary);color:var(--text-primary);margin:auto;padding:25px;border-radius:15px;width:90%;max-width:400px;position:relative;box-shadow:0 5px 25px rgba(0,0,0,.5);border:1px solid var(--border-color);animation:pop-in .4s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column;align-items:center}.modal-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;margin-bottom:0;width:100%}.modal-header h2{font-size:22px;font-weight:700;color:var(--text-primary)}.close-button{color:var(--text-secondary);font-size:28px;font-weight:700;cursor:pointer;transition:color .3s ease}.close-button:hover{color:var(--text-primary)}.payment-details{background-color:var(--bg-tertiary);border:1px dashed #4a69bd;padding:15px;border-radius:8px;margin-bottom:20px;text-align:left;width:100%}.payment-details p{margin:8px 0;font-size:16px;color:var(--text-secondary)}.payment-details strong{color:var(--text-primary);font-weight:700}.form-prompt{text-align:center;margin-bottom:20px;color:var(--text-secondary)}.payment-form label{display:block;text-align:left;margin-bottom:8px;color:var(--text-secondary);font-weight:500}.payment-form input,.payment-form textarea{width:100%;padding:12px;margin-bottom:15px;border-radius:8px;background-color:var(--bg-primary);border:1px solid #4a69bd;font-family:'Poppins',sans-serif;font-size:15px;color:var(--text-primary);transition:border-color .3s,box-shadow .3s}.payment-form input:focus,.payment-form textarea:focus{outline:0;border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(39,174,96,.3)}.payment-form input::placeholder,.payment-form textarea::placeholder{color:#7f8c8d}.confirm-button{width:100%;background:var(--accent-green);color:#fff;border:none;padding:15px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;transition:background-color .3s ease;margin-top:10px}.confirm-button:hover{background-color:#2ecc71}.page-content{line-height:1.7;color:var(--text-secondary)}.page-content p{margin-bottom:15px}.contact-details li{list-style:none;margin-bottom:10px;font-weight:500;color:var(--text-primary)}.winner-group-title{font-size:18px;color:var(--text-primary);font-weight:700;text-align:left;margin-bottom:20px;margin-top:30px;padding-bottom:10px;border-bottom:2px solid var(--bg-secondary)}.winner-group-title:first-child{margin-top:0}.winner-card{border-radius:16px;padding:20px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 8px 20px var(--shadow-color);border:none}.winner-card .user{font-size:16px;color:#fff;font-weight:600}.winner-card .prize{font-family:'Roboto Mono',monospace;font-size:22px;font-weight:700;color:#fff;text-align:right}.winner-card.monthly{background-color:var(--accent-yellow)}.winner-card.weekly{background-color:var(--accent-red)}.winner-card.daily{background-color:var(--accent-blue)}.nav-menu{position:fixed;top:0;right:0;width:280px;height:100%;background-color:var(--bg-secondary);border-left:1px solid var(--border-color);transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);z-index:2000;display:flex;flex-direction:column}.nav-menu.open{transform:translateX(0)}.menu-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid var(--border-color)}.menu-header h3{font-size:20px;color:var(--text-primary)}.close-menu-btn{font-size:30px;background:0 0;border:none;color:var(--text-primary);cursor:pointer}.nav-menu ul{list-style:none;padding:20px 0}.nav-menu ul li a{display:block;padding:15px 20px;color:var(--text-primary);text-decoration:none;font-size:16px;transition:background-color .2s ease,padding-left .2s ease}.nav-menu ul li a:hover{background-color:var(--bg-tertiary);padding-left:25px}.menu-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);display:none;z-index:1999}.menu-overlay.open{display:block}.success-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:4000;opacity:0;transition:opacity .3s ease}.success-overlay.show{display:flex;opacity:1}.success-box{background-color:var(--bg-secondary);padding:30px 40px;border-radius:20px;text-align:center;width:90%;max-width:340px;border:1px solid var(--border-color);transform:scale(.9);animation:success-pop-in .4s cubic-bezier(.25,.46,.45,.94) forwards}@keyframes success-pop-in{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}.success-icon{width:70px;height:70px;margin:0 auto 20px auto;background-color:var(--accent-green);border-radius:50%;display:flex;align-items:center;justify-content:center}.success-icon svg{width:40px;height:40px}.success-box h2{font-size:24px;color:var(--text-primary);margin-bottom:10px}.success-box p{color:var(--text-secondary);font-size:16px;line-height:1.6}.social-links{display:flex;justify-content:center;align-items:center;gap:25px;margin-top:40px;padding-bottom:20px}.social-icon svg{width:24px;height:24px;fill:var(--text-secondary);transition:all .2s ease-in-out}.social-icon:hover svg{fill:var(--text-primary);transform:scale(1.1)}.payment-tabs{display:flex;border-bottom:1px solid var(--border-color);margin-bottom:20px;margin-top:10px;width:100%}.tab-button{flex:1;padding:12px;background:0 0;border:none;color:var(--text-secondary);font-size:16px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s ease}.tab-button.active{color:var(--text-primary);border-bottom-color:var(--accent-green)}.payment-content{display:none;width:100%}.payment-content.active{display:block;animation:fadeIn .4s}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.theme-switcher{margin:auto 20px 20px;padding:15px;border-top:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;}.theme-switcher label{font-size:16px;font-weight:500;color:var(--text-primary)}.theme-toggle{position:relative;display:inline-block;width:50px;height:28px}.theme-toggle input{opacity:0;width:0;height:0}.theme-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:28px}.theme-slider:before{position:absolute;content:"";height:20px;width:20px;left:4px;bottom:4px;background-color:#fff;transition:.4s;border-radius:50%}input:checked+.theme-slider{background-color:var(--accent-green)}input:checked+.theme-slider:before{transform:translateX(22px)}#loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:var(--bg-primary);z-index:5000;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .5s ease-out}.loading-logo{font-size:36px;font-weight:700;color:var(--text-primary);margin-bottom:20px}.loader{border:4px solid var(--bg-tertiary);border-top:4px solid var(--accent-green);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}#loading-overlay.hidden{opacity:0;pointer-events:none}.video-container{width:100%;max-width:270px;height:480px;border-radius:16px;overflow:hidden;margin:15px 0;background-color:#000}.video-container iframe{width:100%;height:100%;border:0}.quantity-selector{display:flex;align-items:center;justify-content:space-between;margin:15px 0 20px 0;padding:10px;background-color:var(--bg-tertiary);border-radius:12px;width:100%}.quantity-selector label{font-weight:500;color:var(--text-secondary)}.quantity-controls{display:flex;align-items:center;gap:15px}.quantity-btn{background-color:var(--accent-blue);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:24px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}#quantity-display{font-size:22px;font-weight:700;min-width:40px;text-align:center;font-family:'Roboto Mono',monospace}
+        
+        /* New Video Tutorial Modal Styles */
+        .video-tutorial-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(10,25,47,.5);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+        .video-tutorial-content {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            margin: auto;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 5px 25px rgba(0,0,0,.5);
+            border: 1px solid var(--border-color);
+            animation: pop-in .4s cubic-bezier(.25,.46,.45,.94);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .skip-video-btn {
+            width: 100%;
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color .3s ease;
+            margin-top: 15px;
+        }
+        .skip-video-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-overlay">
+        <div class="loading-logo">PK BOND</div>
+        <div class="loader"></div>
+    </div>
+
+    <div id="mainScreen" class="screen">
+        <div class="header"><h1>PK BOND</h1><button class="menu-icon">☰</button></div>
+        <main>
+            <div class="slider-container"><div class="slider-wrapper"><div class="slide"><h2>Welcome to PK Bond!</h2><p>Your chance to win big is here.</p></div><div class="slide"><h2>Win Up To 600,000 PKR!</h2><p>Join the monthly draw for our biggest prize.</p></div><div class="slide"><h2>Secure & Easy Payments</h2><p>Buy your bonds instantly with EasyPaisa.</p></div></div></div>
+            <div class="countdown-section"><h3 >Time Left to Participate</h3><div class="timers-container"><div class="timer-box"><div class="timer-label">Daily</div><div class="timer-value" id="daily-countdown"></div></div><div class="timer-box"><div class="timer-label">Weekly</div><div class="timer-value" id="weekly-countdown"></div></div><div class="timer-box"><div class="timer-label">Monthly</div><div class="timer-value" id="monthly-countdown"></div></div></div></div>
+            <div class="card-wrapper"><div class="bond-card monthly"><div class="card-header"><span class="title">MONTHLY BOND</span><div class="draw-info"><div class="footer-label">Draw Date</div><div class="footer-value" id="monthly-draw-date"></div></div></div><div class="card-main-text"><div class="prize-label">Top Prize</div><div class="prize-amount">200,000 <small>PKR</small></div></div><div class="card-footer"><div><div class="footer-label">user number</div><div class="footer-value">0300----</div></div><div style="text-align: right;"><div class="footer-label">Price</div><div class="footer-value price-value">200 PKR</div></div></div></div><button class="action-button">Buy Now</button></div>
+            <div class="card-wrapper"><div class="bond-card weekly"><div class="card-header"><span class="title">WEEKLY BOND</span><div class="draw-info"><div class="footer-label">Draw Date</div><div class="footer-value" id="weekly-draw-date"></div></div></div><div class="card-main-text"><div class="prize-label">Top Prize</div><div class="prize-amount">50,000 <small>PKR</small></div></div><div class="card-footer"><div><div class="footer-label">user number</div><div class="footer-value">0300----</div></div><div style="text-align: right;"><div class="footer-label">Price</div><div class="footer-value price-value">50 PKR</div></div></div></div><button class="action-button">Buy Now</button></div>
+            <div class="card-wrapper"><div class="bond-card daily"><div class="card-header"><span class="title">DAILY BOND</span><div class="draw-info"><div class="footer-label">Draw Date</div><div class="footer-value" id="daily-draw-date"></div></div></div><div class="card-main-text"><div class="prize-label">Top Prize</div><div class="prize-amount">5,000 <small>PKR</small></div></div><div class="card-footer"><div><div class="footer-label">User number</div><div class="footer-value">0300----</div></div><div style="text-align: right;"><div class="footer-label">Price</div><div class="footer-value price-value">10 PKR</div></div></div></div><button class="action-button">Buy Now</button></div>
+        </main>
+        <button class="results-button">Winner Results</button>
+        <div class="social-links">
+            <a href="#" target="_blank" class="social-icon" aria-label="TikTok"><svg viewBox="0 0 448 512"><path d="M448 209.9a210.1 210.1 0 01-122.8-39.25V349.38A162.6 162.6 0 11185 188.31v89.81a74.62 74.62 0 1052.23 71.18V0h88a121.18 121.18 0 001.86 22.17A122.18 122.18 0 00381 102.39a121.43 121.43 0 0067 20.14z"/></svg></a>
+            <a href="#" target="_blank" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 512 512"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.8 90.5 226.4 209.3 245V327.7h-63V256h63v-54.6c0-62.2 37-96.5 93.7-96.5 27.1 0 55.5 4.8 55.5 4.8v61h-31.3c-30.8 0-40.4 19.1-40.4 38.7V256h68.8l-11 71.7h-57.8V501C413.5 482.4 504 379.8 504 256z"/></svg></a>
+            <a href="#" target="_blank" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.3 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+            <a href="#" target="_blank" class="social-icon" aria-label="WhatsApp"><svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-67.6-9.5-97.2-26.8l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></a>
+        </div>
+    </div>
+
+    <div id="resultsScreen" class="screen">
+        <div class="header"><button class="back-button">← Back</button><h1>Recent Winners</h1><span></span></div>
+        <main><h4 class="winner-group-title">Monthly Winners - <span id="monthly-winner-date"></span></h4><div class="winner-card monthly"><div class="info"><div class="user">User: 0300-***1234</div></div><p class="prize">200,000 PKR</p></div><div class="winner-card monthly"><div class="info"><div class="user">User: 0301-***2345</div></div><p class="prize">200,000 PKR</p></div><div class="winner-card monthly"><div class="info"><div class="user">User: 0302-***3456</div></div><p class="prize">200,000 PKR</p></div><h4 class="winner-group-title">Weekly Winners - <span id="weekly-winner-date"></span></h4><div class="winner-card weekly"><div class="info"><div class="user">User: 0345-***5678</div></div><p class="prize">50,000 PKR</p></div><div class="winner-card weekly"><div class="info"><div class="user">User: 0346-***6789</div></div><p class="prize">50,000 PKR</p></div><div class="winner-card weekly"><div class="info"><div class="user">User: 0347-***7890</div></div><p class="prize">50,000 PKR</p></div><h4 class="winner-group-title">Daily Winners - <span id="daily-winner-date"></span></h4><div class="winner-card daily"><div class="info"><div class="user">User: 0321-***9012</div></div><p class="prize">5,000 PKR</p></div><div class="winner-card daily"><div class="info"><div class="user">User: 0322-***1122</div></div><p class="prize">5,000 PKR</p></div><div class="winner-card daily"><div class="info"><div class="user">User: 0323-***3344</div></div><p class="prize">5,000 PKR</p></div></main>
+    </div>
+
+    <div id="aboutScreen" class="screen">
+        <div class="header"><button class="back-button">← Back</button><h1>About Us</h1><span></span></div>
+        <main class="page-content"><p>Welcome to PK Bond, your premier destination for participating in exciting daily, weekly, and monthly bond draws. Our platform is designed to be simple, secure, and engaging, providing you with a seamless way to purchase bonds and check results.</p><p>Our mission is to bring the thrill of prize bonds to the digital age, making it accessible to everyone in Pakistan. We are committed to fairness, transparency, and providing the best possible experience for our users.</p><p>Thank you for choosing PK Bond. We wish you the best of luck in the draws!</p></main>
+    </div>
+
+    <div id="contactScreen" class="screen">
+        <div class="header"><button class="back-button">← Back</button><h1>Contact Us</h1><span></span></div>
+        <main class="page-content"><p>If you have any questions, concerns, or feedback, please reach out to us.</p><ul class="contact-details"><li><strong>Email:</strong> support@pkbond.example.com</li><li><strong>WhatsApp:</strong> +92 300 1234567</li></ul><p>Alternatively, fill out the form below and our team will get back to you.</p><form action="https://formspree.io/f/xzzgngbo" method="POST" class="payment-form"><label for="contactName">Your Name:</label><input type="text" id="contactName" name="name" required><label for="contactEmail">Your Email:</label><input type="email" id="contactEmail" name="email" required><label for="contactMessage">Message:</label><textarea id="contactMessage" name="message" rows="5" required></textarea><button type="submit" class="confirm-button">Send Message</button></form></main>
+    </div>
+    
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Select Payment Method</h2><span class="close-button">×</span></div>
+            <div class="payment-tabs"><button class="tab-button active" data-tab="easypaisa">Easy Paisa</button><button class="tab-button" data-tab="jazzcash">Jazz Cash</button></div>
+            <div id="easypaisa-content" class="payment-content active"><div class="payment-details"><p>Holder Name: <strong>FAZAL JALEEL</strong></p><p>Account Number: <strong>03174787683</strong></p></div></div>
+            <div id="jazzcash-content" class="payment-content"><div class="payment-details"><p>Holder Name: <strong>FAZAL JALEEL</strong></p><p>Account Number: <strong>03051234567</strong></p></div></div>
+            <div class="payment-details" style="background:none; border-style:solid; text-align:center;">
+                <p>Selected Bond: <strong id="selectedBondName"></strong></p>
+                <div class="quantity-selector"><label>Quantity:</label><div class="quantity-controls"><button type="button" class="quantity-btn" id="quantity-minus">-</button><span id="quantity-display">1</span><button type="button" class="quantity-btn" id="quantity-plus">+</button></div></div>
+                <p>Total Amount: <strong id="paymentAmount"></strong></p>
+            </div>
+            <p class="form-prompt">Please enter your details after sending the payment:</p>
+            <form id="payment-form" class="payment-form">
+                <input type="hidden" name="Selected Bond" id="formspreeBondName"><input type="hidden" name="Price" id="formspreeBondPrice"><input type="hidden" name="Quantity" id="formspreeQuantity" value="1"><input type="hidden" name="Payment Method" id="formspreePaymentMethod" value="Easy Paisa">
+                <label for="fullName">Your Full Name:</label><input type="text" id="fullName" name="Full Name" required>
+                <label for="senderAccount">Your Account Number (Sender):</label><input type="text" id="senderAccount" name="Sender Account" placeholder="e.g., 03XXXXXXXXX" required>
+                <label for="whatsappNumber">Your WhatsApp Number:</label><input type="text" id="whatsappNumber" name="WhatsApp Number" placeholder="e.g., 03XXXXXXXXX" required>
+                <label for="tid">Transaction ID (TID) (Optional):</label><input type="text" id="tid" name="Transaction ID" placeholder="Optional, but helps verify faster">
+                <button type="submit" class="confirm-button">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Video Tutorial Modal -->
+    <div id="videoTutorialModal" class="video-tutorial-modal">
+        <div class="video-tutorial-content">
+            <div class="modal-header">
+                <h2>How to Buy Bonds</h2>
+                <span class="close-button">×</span>
+            </div>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <button class="skip-video-btn">Skip & Continue to Payment</button>
+        </div>
+    </div>
+
+    <div id="menuOverlay" class="menu-overlay"></div>
+    <div id="navMenu" class="nav-menu">
+        <div class="menu-header"><h3>Menu</h3><button id="closeMenuBtn" class="close-menu-btn">×</button></div>
+        <ul><li><a href="#" id="menuHome">Home</a></li><li><a href="#" id="menuWinners">Winner Results</a></li><li><a href="#" id="menuAbout">About Us</a></li><li><a href="#" id="menuContact">Contact Us</a></li></ul>
+        <div class="theme-switcher"><label for="theme-toggle">Light Mode</label><label class="theme-toggle"><input type="checkbox" id="theme-toggle"><span class="theme-slider"></span></label></div>
+    </div>
+    
+    <div id="success-overlay" class="success-overlay">
+        <div class="success-box">
+            <div class="success-icon"><svg viewBox="0 0 512 512"><path fill="#fff" d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg></div>
+            <h2>Success!</h2>
+            <p id="success-message-text"></p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const allScreens = document.querySelectorAll('.screen');
+            const mainScreen = document.getElementById('mainScreen');
+            const resultsScreen = document.getElementById('resultsScreen');
+            const aboutScreen = document.getElementById('aboutScreen');
+            const contactScreen = document.getElementById('contactScreen');
+            const paymentModal = document.getElementById("paymentModal");
+            const navMenu = document.getElementById('navMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const successOverlay = document.getElementById('success-overlay');
+            const successMessageText = document.getElementById('success-message-text');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const themeToggle = document.getElementById('theme-toggle');
+            const videoTutorialModal = document.getElementById("videoTutorialModal");
+            
+            let currentOrderInfo = {};
+
+            setTimeout(() => { loadingOverlay.classList.add('hidden'); }, 1500);
+            
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (themeToggle && savedTheme === 'light') themeToggle.checked = true;
+
+            function showScreen(screenId) {
+                const screenToShow = document.getElementById(screenId);
+                if (!screenToShow) return;
+                allScreens.forEach(screen => screen.style.display = 'none');
+                screenToShow.style.display = 'block';
+                closeMenu();
+            }
+
+            function openMenu() { navMenu.classList.add('open'); menuOverlay.classList.add('open'); }
+            function closeMenu() { navMenu.classList.remove('open'); menuOverlay.classList.remove('open'); }
+
+            function showSuccessMessage(message) {
+                successMessageText.textContent = message;
+                successOverlay.classList.add('show');
+                setTimeout(() => { successOverlay.classList.remove('show'); }, 4000);
+            }
+
+            function openVideoTutorial() {
+                videoTutorialModal.style.display = "flex";
+            }
+
+            function openPaymentModal() {
+                paymentModal.style.display = "flex";
+                paymentModal.querySelector("#selectedBondName").textContent = currentOrderInfo.name;
+                const quantityDisplay = paymentModal.querySelector('#quantity-display');
+                const plusBtn = paymentModal.querySelector('#quantity-plus');
+                const minusBtn = paymentModal.querySelector('#quantity-minus');
+
+                function updateTotal() {
+                    const quantity = parseInt(quantityDisplay.textContent);
+                    const newTotal = quantity * currentOrderInfo.basePrice;
+                    paymentModal.querySelector('#paymentAmount').textContent = `${newTotal} PKR`;
+                    paymentModal.querySelector('#formspreeBondPrice').value = `${newTotal} PKR`;
+                    paymentModal.querySelector('#formspreeQuantity').value = quantity;
+                }
+
+                plusBtn.onclick = () => { let q = parseInt(quantityDisplay.textContent); quantityDisplay.textContent = ++q; updateTotal(); };
+                minusBtn.onclick = () => { let q = parseInt(quantityDisplay.textContent); if (q > 1) { quantityDisplay.textContent = --q; updateTotal(); } };
+                
+                quantityDisplay.textContent = '1';
+                updateTotal();
+            }
+
+            document.querySelector('.menu-icon').addEventListener('click', openMenu);
+            document.getElementById('closeMenuBtn').addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+            document.getElementById('menuHome').addEventListener('click', (e) => { e.preventDefault(); showScreen('mainScreen'); });
+            document.getElementById('menuWinners').addEventListener('click', (e) => { e.preventDefault(); showScreen('resultsScreen'); });
+            document.getElementById('menuAbout').addEventListener('click', (e) => { e.preventDefault(); showScreen('aboutScreen'); });
+            document.getElementById('menuContact').addEventListener('click', (e) => { e.preventDefault(); showScreen('contactScreen'); });
+            document.querySelector('.results-button').addEventListener('click', () => showScreen('resultsScreen'));
+            document.querySelectorAll('.back-button').forEach(button => button.addEventListener('click', () => showScreen('mainScreen')));
+            if (themeToggle) { themeToggle.addEventListener('change', function() { const theme = this.checked ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); }); }
+            
+            const paymentForm = document.getElementById('payment-form');
+            paymentForm.addEventListener('submit', function(event) {
+                event.preventDefault(); const formData = new FormData(paymentForm); const submitButton = paymentForm.querySelector('.confirm-button'); submitButton.textContent = 'Submitting...'; submitButton.disabled = true;
+                fetch("https://formspree.io/f/xzzgngbo", { method: 'POST', body: formData, headers: {'Accept': 'application/json'} })
+                .then(response => { if (response.ok) { paymentModal.style.display = "none"; paymentForm.reset(); showSuccessMessage("Your bond card will be sent to you within 10 minutes."); } else { showSuccessMessage("Oops! There was a problem. Please try again."); } })
+                .catch(error => { showSuccessMessage("Network error. Please check your connection."); })
+                .finally(() => { submitButton.textContent = 'Confirm Order'; submitButton.disabled = false; });
+            });
+
+            document.querySelectorAll(".action-button").forEach(button => {
+                button.addEventListener('click', function() {
+                    const cardWrapper = this.closest(".card-wrapper");
+                    currentOrderInfo.name = cardWrapper.querySelector(".title").textContent;
+                    currentOrderInfo.price = cardWrapper.querySelector(".price-value").textContent;
+                    currentOrderInfo.basePrice = parseInt(currentOrderInfo.price.replace(/[^0-9]/g, ''));
+                    openVideoTutorial();
+                });
+            });
+
+            paymentModal.querySelector(".close-button").addEventListener('click', () => paymentModal.style.display = "none");
+            window.addEventListener('click', (event) => { if (event.target == paymentModal) { paymentModal.style.display = "none"; } });
+            
+            const tabButtons = paymentModal.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    paymentModal.querySelector('.tab-button.active').classList.remove('active'); paymentModal.querySelector('.payment-content.active').classList.remove('active');
+                    button.classList.add('active'); paymentModal.querySelector(`#${button.dataset.tab}-content`).classList.add('active');
+                    paymentModal.querySelector('#formspreePaymentMethod').value = button.textContent;
+                });
+            });
+            
+            videoTutorialModal.querySelector(".close-button").addEventListener('click', () => {
+                videoTutorialModal.style.display = "none";
+                openPaymentModal();
+            });
+            
+            videoTutorialModal.querySelector(".skip-video-btn").addEventListener('click', () => {
+                videoTutorialModal.style.display = "none";
+                openPaymentModal();
+            });
+            
+            window.addEventListener('click', (event) => {
+                if (event.target == videoTutorialModal) {
+                    videoTutorialModal.style.display = "none";
+                }
+            });
+            
+            const sliderWrapper = document.querySelector('.slider-wrapper');
+            if (sliderWrapper) { let currentSlide = 0; setInterval(() => { currentSlide = (currentSlide + 1) % sliderWrapper.children.length; sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`; }, 4000); }
+            const today = new Date(); const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            const dailyDrawDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 0, 0, 0);
+            const weeklyDrawDate = new Date(today); let daysUntilFriday = (5 - today.getDay() + 7) % 7; if (daysUntilFriday === 0) { daysUntilFriday = 7; } weeklyDrawDate.setDate(today.getDate() + daysUntilFriday); weeklyDrawDate.setHours(0, 0, 0, 0);
+            const monthlyDrawDate = new Date(today.getFullYear(), today.getMonth() + 1, 1, 0, 0, 0);
+            document.getElementById('daily-draw-date').textContent = dailyDrawDate.toLocaleDateString('en-US', options); document.getElementById('weekly-draw-date').textContent = weeklyDrawDate.toLocaleDateString('en-US', options); document.getElementById('monthly-draw-date').textContent = monthlyDrawDate.toLocaleDateString('en-US', options);
+            const dailyEl = document.getElementById('daily-countdown'), weeklyEl = document.getElementById('weekly-countdown'), monthlyEl = document.getElementById('monthly-countdown');
+            function updateCountdowns() { const now = new Date().getTime(); const format = (d) => { if (!d || !(d instanceof Date)) return "--:--:--"; const dist = d.getTime() - now; if (dist < 0) return "DRAW LIVE!"; const ds = Math.floor(dist / (1000*60*60*24)), hs = Math.floor((dist % (1000*60*60*24))/(1000*60*60)), ms = Math.floor((dist % (1000*60*60))/(1000*60)), ss = Math.floor((dist % (1000*60))/1000); if (ds > 0) return `${String(ds).padStart(2, '0')}d ${String(hs).padStart(2, '0')}h ${String(ms).padStart(2, '0')}m`; return `${String(hs).padStart(2, '0')}:${String(ms).padStart(2, '0')}:${String(ss).padStart(2, '0')}`; };
+            if (dailyEl) dailyEl.textContent = format(dailyDrawDate); if (weeklyEl) weeklyEl.textContent = format(weeklyDrawDate); if (monthlyEl) monthlyEl.textContent = format(monthlyDrawDate);
+            }
+            setInterval(updateCountdowns, 1000); updateCountdowns();
+            const yesterday = new Date(); yesterday.setDate(today.getDate() - 1); document.getElementById('daily-winner-date').textContent = yesterday.toLocaleDateString('en-US', options); const lastFriday = new Date(); const daysToSubtract = (today.getDay() + 2) % 7; lastFriday.setDate(today.getDate() - (daysToSubtract === 0 ? 7 : daysToSubtract)); document.getElementById('weekly-winner-date').textContent = lastFriday.toLocaleDateString('en-US', options); const firstOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1); document.getElementById('monthly-winner-date').textContent = firstOfThisMonth.toLocaleDateString('en-US', options);
+        });
+    </script>
+</body>
+</html>
